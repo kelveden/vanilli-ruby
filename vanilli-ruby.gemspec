@@ -9,6 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["kelveden@gmail.com"]
 
   spec.summary       = "Ruby bindings for vanilli"
+  spec.description   = "Provides a ruby API for starting a vanilli server and interacting with it."
   spec.homepage      = "https://github.com/mixradio/vanilli-ruby"
   spec.license       = "BSD-3-Clause"
 
