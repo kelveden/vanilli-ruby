@@ -1,8 +1,5 @@
-# Vanilli::Ruby
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/vanilli/ruby`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+# Vanilli
+Ruby bindings for use with [vanilli](https://github.com/mixradio/vanilli).
 
 ## Installation
 
@@ -21,19 +18,46 @@ Or install it yourself as:
     $ gem install vanilli-ruby
 
 ## Usage
+Two classes are provided `VanilliServer` and `VanilliClient`.
 
-TODO: Write usage instructions here
+### VanilliClient
+This class provides a client API for interacting with a running vanilli server. The API has
+deliberately been kept as close as possible to the canonical javascript API with a few "rubifications"
+(snake case on method names for example). However, the API is close enough that providing extra
+documentation here is counter-productive - please see the [javascript documentation](https://github.com/mixradio/vanilli/wiki/API).
 
-## Development
+Instantiating the client is straightforward:
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+```ruby
+require 'vanilli/client'
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+vanilli = VanilliClient.new()
 
-## Contributing
+vanilli.stub(...)
+#etc.
+```
 
-1. Fork it ( https://github.com/[my-github-username]/vanilli-ruby/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+### VanilliServer
+Of course, to be able to make use of the client one needs a vanilli server running to connect to. This
+can be achieved in a number of ways:
+
+* Start vanilli via its CLI
+```sh
+npm install -g vanilli
+vanilli --port 9000
+```
+
+* Start vanilli from javascript
+i.e. use the javascript API perhaps from some grunt/gulp/npm based task.
+
+* Use VanilliServer provided with this ruby gem
+This just acts as a wrapper around the vanilli CLI. Therefore you *MUST* have vanilli installed to your
+path for this to work. Once installed, start something like this:
+
+```ruby
+vanilliServer = VanilliServer.new(port: 9000,
+                                  logLevel: "debug",
+                                  staticRoot: "/your/web/app/assets",
+                                  staticInclude: ['**/*.html', '**/*.js', '**/*.css*', '/robots.txt'])
+                .start()
+```
