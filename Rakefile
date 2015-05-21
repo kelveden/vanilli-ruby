@@ -6,4 +6,4 @@ RuboCop::RakeTask.new(:rubocop) do |task|
   task.patterns = ['lib/**/*.rb']
 end
 
-task :default  => :rubocop
+task default: :rubocop
