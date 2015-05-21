@@ -55,9 +55,9 @@ This just acts as a wrapper around the vanilli CLI. Therefore you *MUST* have va
 path for this to work. Once installed, start something like this:
 
 ```ruby
-vanilliServer = VanilliServer.new(port: 9000,
-                                  logLevel: "debug",
-                                  staticRoot: "/your/web/app/assets",
-                                  staticInclude: ['**/*.html', '**/*.js', '**/*.css*', '/robots.txt'])
+vanilli_server = VanilliServer.new(port: 9000,
+                                  log_level: "debug",
+                                  static_root: "/your/web/app/assets",
+                                  static_include: ['**/*.html', '**/*.js', '**/*.css*', '/robots.txt'])
                 .start()
 ```
