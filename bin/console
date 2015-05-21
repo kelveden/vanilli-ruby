@@ -1,11 +1,8 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
-require "vanilli/ruby"
-
-# (If you use this, don't forget to add pry to your Gemfile!)
-# require "pry"
-# Pry.start
+require "vanilli/server"
+require "vanilli/client"
 
 require "irb"
 IRB.start
