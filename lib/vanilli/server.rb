@@ -13,13 +13,13 @@ class VanilliServer
   end
 
   # Shells out to start vanilli
-  def start
+  def start(cwd: ".")
     @pid = spawn("vanilli --port #{@port} \
                     --logLevel=#{@log_level} \
                     --staticRoot=#{@static_root} \
                     --staticDefault=#{@static_default} \
                     --staticInclude=#{@static_include} \
-                    --staticExclude=#{@static_exclude}")
+                    --staticExclude=#{@static_exclude}", chdir: cwd)
 
     Timeout.timeout(3) do
       begin
