@@ -1,4 +1,4 @@
-# Vanilli
+# vanilli-ruby
 Ruby bindings for use with [vanilli](https://github.com/mixradio/vanilli).
 
 ## Installation
