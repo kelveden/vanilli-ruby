@@ -59,5 +59,5 @@ vanilli_server = VanilliServer.new(port: 9000,
                                   log_level: "debug",
                                   static_root: "/your/web/app/assets",
                                   static_include: ['**/*.html', '**/*.js', '**/*.css*', '/robots.txt'])
-                .start()
+                .start
 ```
