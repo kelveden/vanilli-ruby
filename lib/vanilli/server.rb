@@ -13,7 +13,7 @@ class VanilliServer
   end
 
   # Shells out to start vanilli
-  def start(cwd: ".")
+  def start(cwd: '.')
     @pid = spawn("vanilli --port #{@port} \
                     --logLevel=#{@log_level} \
                     --staticRoot=#{@static_root} \
