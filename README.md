@@ -31,7 +31,7 @@ Instantiating the client is straightforward:
 ```ruby
 require 'vanilli/client'
 
-vanilli = VanilliClient.new()
+vanilli = VanilliClient.new
 
 vanilli.stub(...)
 #etc.
