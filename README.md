@@ -61,3 +61,11 @@ vanilli_server = VanilliServer.new(port: 9000,
                                   static_include: ['**/*.html', '**/*.js', '**/*.css*', '/robots.txt'])
                 .start
 ```
+
+## Contributing
+To try out the gem before releasing, build and then install the gem:
+
+```sh
+gem build vanilly-ruby.gemspec
+gem install vanilli-ruby-VERSION.gem
+```

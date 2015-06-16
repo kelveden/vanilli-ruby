@@ -177,4 +177,15 @@ class VanilliClient
   def get_capture(capture_id)
     get_captures(capture_id).last
   end
+
+
+  # Verifies that all vanilli expectations have been met. If
+  # not, an error is thrown.
+  def dump
+    begin
+      puts RestClient.get('http://localhost:9000/_vanilli/dump')
+    rescue => e
+      raise e.response
+    end
+  end
 end
