@@ -39,6 +39,10 @@ end
 # "rubified" (i.e. snake-case for camel-case) version of the
 # default javascript API provided with vanilli.
 class VanilliClient
+  def initialize(port)
+    @port = port
+  end
+  
   # Represents a single stub as will be registered with
   # the vanilli server.
   class Stub
@@ -131,7 +135,7 @@ class VanilliClient
   def stub(*stubs)
     stubs.each do |stub|
       begin
-        RestClient.post 'http://localhost:9000/_vanilli/stubs', stub.to_json, content_type: :json, accept: :json
+        RestClient.post "http://localhost:#{@port}/_vanilli/stubs", stub.to_json, content_type: :json, accept: :json
       rescue => e
         raise e.response
       end
@@ -147,7 +151,7 @@ class VanilliClient
 
   # Clears the vanilli server of all stubs.
   def clear
-    RestClient.delete 'http://localhost:9000/_vanilli/stubs'
+    RestClient.delete "http://localhost:#{@port}/_vanilli/stubs"
   rescue => e
     raise e.response
   end
@@ -156,7 +160,7 @@ class VanilliClient
   # not, an error is thrown.
   def verify
     begin
-      res = JSON.parse(RestClient.get 'http://localhost:9000/_vanilli/verify')
+      res = JSON.parse(RestClient.get "http://localhost:#{@port}/_vanilli/verify")
     rescue => e
       raise e.response
     end
@@ -167,7 +171,7 @@ class VanilliClient
   # Pulls back details of all requests that were logged against the
   # specified capture id.
   def get_captures(capture_id)
-    JSON.parse(RestClient.get 'http://localhost:9000/_vanilli/captures/' + capture_id)
+    JSON.parse(RestClient.get "http://localhost:#{@port}/_vanilli/captures/#{capture_id}")
   rescue => e
     raise e.response
   end
@@ -183,7 +187,7 @@ class VanilliClient
   # not, an error is thrown.
   def dump
     begin
-      puts RestClient.get('http://localhost:9000/_vanilli/dump')
+      puts RestClient.get("http://localhost:#{@port}/_vanilli/dump")
     rescue => e
       raise e.response
     end
