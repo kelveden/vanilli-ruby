@@ -1,4 +1,5 @@
 require 'rest-client'
+require 'json'
 
 # Provides hooks for starting and stopping a vanilli server. Relies on the vanilli CLI
 # API and therefore requires vanilli to be installed.
@@ -6,8 +7,8 @@ class VanilliServer
   def initialize(port:, static_root: nil, static_include: [], static_exclude: [], static_default: 'index.html', log_level: 'warn')
     @static_root = static_root
     @static_default = static_default
-    @static_include = static_include.join(',')
-    @static_exclude = static_exclude.join(',')
+    @static_include = JSON.generate(static_include)
+    @static_exclude = JSON.generate(static_exclude)
     @port = port
     @log_level = log_level
   end
