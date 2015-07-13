@@ -42,7 +42,7 @@ class VanilliClient
   def initialize(port)
     @port = port
   end
-  
+
   # Represents a single stub as will be registered with
   # the vanilli server.
   class Stub
@@ -62,7 +62,7 @@ class VanilliClient
                                                         contentType: content_type,
                                                         body: body,
                                                         headers: headers))
-      @times = times
+      @times = times unless times == :any
 
       self
     end
@@ -89,6 +89,10 @@ class VanilliClient
                  times: @times,
                  captureId: @capture_id,
                  expect: @expect).to_json
+    end
+
+    def ensure_times_exists
+      @expect = 1 unless @expect
     end
   end
 
@@ -146,6 +150,8 @@ class VanilliClient
   # vanilli server.
   def expect(expectation)
     expectation.expect = true
+    expectation.ensure_times_exists
+
     stub(expectation)
   end
 
@@ -182,14 +188,11 @@ class VanilliClient
     get_captures(capture_id).last
   end
 
-
   # Verifies that all vanilli expectations have been met. If
   # not, an error is thrown.
   def dump
-    begin
-      puts RestClient.get("http://localhost:#{@port}/_vanilli/dump")
-    rescue => e
-      raise e.response
-    end
+    puts RestClient.get("http://localhost:#{@port}/_vanilli/dump")
+  rescue => e
+    raise e.response
   end
 end
