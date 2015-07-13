@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "vanilli-ruby"
-  spec.version       = "1.1.3"
+  spec.version       = "1.2.0"
   spec.authors       = ["Alistair Dutton"]
   spec.email         = ["kelveden@gmail.com"]
 
