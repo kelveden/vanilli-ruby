@@ -51,6 +51,7 @@ class VanilliClient
     def initialize(criteria:, priority:)
       @criteria = criteria
       @priority = priority
+      @response = {}
     end
 
     # Construct the response for the stub
@@ -58,10 +59,12 @@ class VanilliClient
       fail 'Status code is missing.' if status.nil?
       fail_body_with_no_contenttype(body, content_type)
 
-      @response = stringify_non_json_content(strip_nils(status: status,
-                                                        contentType: content_type,
-                                                        body: body,
-                                                        headers: headers))
+      @response = stringify_non_json_content(
+          @response.merge!(
+              strip_nils(status: status, contentType: content_type, body: body, headers: headers)
+          )
+      )
+
       @times = times unless times == :any
 
       self
