@@ -60,9 +60,9 @@ class VanilliClient
       fail_body_with_no_contenttype(body, content_type)
 
       @response = stringify_non_json_content(
-          @response.merge!(
-              strip_nils(status: status, contentType: content_type, body: body, headers: headers)
-          )
+        @response.merge!(
+          strip_nils(status: status, contentType: content_type, body: body, headers: headers)
+        )
       )
 
       @times = times unless times == :any
@@ -180,13 +180,11 @@ class VanilliClient
   # Pulls back details of all requests that were logged against the
   # specified capture id.
   def get_captures(capture_id)
-    res = RestClient.get "http://localhost:#{@port}/_vanilli/captures/#{capture_id}"
+    return JSON.parse(RestClient.get "http://localhost:#{@port}/_vanilli/captures/#{capture_id}")
 
-    if res.code == 200
-      return JSON.parse res
-    else
-      return []
-    end
+  rescue RestClient::ResourceNotFound
+    return []
+
   rescue => e
     raise e.response
   end
