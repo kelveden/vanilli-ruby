@@ -180,7 +180,13 @@ class VanilliClient
   # Pulls back details of all requests that were logged against the
   # specified capture id.
   def get_captures(capture_id)
-    JSON.parse(RestClient.get "http://localhost:#{@port}/_vanilli/captures/#{capture_id}")
+    res = RestClient.get "http://localhost:#{@port}/_vanilli/captures/#{capture_id}"
+
+    if res.code == 200
+      return JSON.parse res
+    else
+      return []
+    end
   rescue => e
     raise e.response
   end
