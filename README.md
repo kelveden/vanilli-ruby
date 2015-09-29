@@ -69,3 +69,10 @@ To try out the gem before releasing, build and then install the gem:
 gem build vanilly-ruby.gemspec
 gem install vanilli-ruby-VERSION.gem
 ```
+
+## Releasing
+ * Up the version in vanilli-ruby.gemspec
+ * Commit and push
+ * `gem build vanilli-ruby.gemspec`
+ * `gem push vanilli-ruby-VERSION.gem`
+ 
