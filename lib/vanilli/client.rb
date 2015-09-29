@@ -138,6 +138,12 @@ class VanilliClient
     on_request('DELETE', url, query: query, headers: headers, priority: priority)
   end
 
+  # Creates a Stub for a HEAD request that will be
+  # matched against the specified criteria.
+  def on_head(url, query: nil, headers: nil, priority: nil)
+    on_request('HEAD', url, query: query, headers: headers, priority: priority)
+  end
+
   # Registers the specified Stub(s) with the vanilli server.
   def stub(*stubs)
     stubs.each do |stub|
