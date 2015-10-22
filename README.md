@@ -1,6 +1,8 @@
 # vanilli-ruby
 Ruby bindings for use with [vanilli](https://github.com/mixradio/vanilli).
 
+> *IMPORTANT*: Requires vanilli 4.8.1+ to be installed globally
+
 ## Installation
 
 Add this line to your application's Gemfile:

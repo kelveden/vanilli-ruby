@@ -35,6 +35,10 @@ private def stringify_non_json_content(content_blob)
   end
 end
 
+private def stubs_to_body(stubs)
+  '[' + stubs.map(&:to_json).join(',') + ']'
+end
+
 # Provides ruby bindings for the vanilli client. API is a
 # "rubified" (i.e. snake-case for camel-case) version of the
 # default javascript API provided with vanilli.
@@ -47,6 +51,12 @@ class VanilliClient
   # the vanilli server.
   class Stub
     attr_writer :expect
+    attr_writer :priority
+    attr_reader :criteria
+    attr_reader :priority
+    attr_reader :response
+    attr_reader :times
+    attr_reader :capture_id
 
     def initialize(criteria:, priority:)
       @criteria = criteria
@@ -146,22 +156,30 @@ class VanilliClient
 
   # Registers the specified Stub(s) with the vanilli server.
   def stub(*stubs)
-    stubs.each do |stub|
-      begin
-        RestClient.post "http://localhost:#{@port}/_vanilli/stubs", stub.to_json, content_type: :json, accept: :json
-      rescue => e
-        raise e.response
-      end
-    end
+    RestClient.post "http://localhost:#{@port}/_vanilli/stubs",
+                    stubs_to_body(stubs),
+                    content_type: :json, accept: :json
+  rescue => e
+    raise e.response
   end
 
-  # Registers the specified Stub as an expectation on the
-  # vanilli server.
-  def expect(expectation)
-    expectation.expect = true
-    expectation.ensure_times_exists
+  # Registers the specified "default" stub(s) with the vanilli server.
+  def stub_default(*stubs)
+    defaults = stubs.map do |stub|
+      stub.priority = 100_000
+      stub
+    end
 
-    stub(expectation)
+    stub(*defaults)
+  end
+
+  # Registers the specified expectations(s) with the vanilli server.
+  def expect(*expectations)
+    RestClient.post "http://localhost:#{@port}/_vanilli/expectations",
+                    stubs_to_body(expectations),
+                    content_type: :json, accept: :json
+  rescue => e
+    raise e.response
   end
 
   # Clears the vanilli server of all stubs.
@@ -190,7 +208,6 @@ class VanilliClient
 
   rescue RestClient::ResourceNotFound
     return []
-
   rescue => e
     raise e.response
   end
