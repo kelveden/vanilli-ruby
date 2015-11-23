@@ -20,7 +20,8 @@ class VanilliServer
                     --staticRoot=#{@static_root} \
                     --staticDefault=#{@static_default} \
                     --staticInclude='#{@static_include}' \
-                    --staticExclude='#{@static_exclude}'", chdir: cwd)
+                    --staticExclude='#{@static_exclude}'", chdir: cwd, pgroup: true)
+    @pgid = Process.getpgid(@pid)
 
     Timeout.timeout(3) do
       begin
@@ -42,5 +43,9 @@ class VanilliServer
       Process.wait @pid
     end
     @pid = nil
+    if @pgid
+        Process.kill('KILL', -(@pgid))
+    end
+    @pgid = nil
   end
 end
